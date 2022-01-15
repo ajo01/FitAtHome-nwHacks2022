@@ -1,0 +1,9 @@
+.workouts {
+  width: 70%;
+  height: 75vh;
+  background-color: white;
+  border-radius: var(--borderRadius);
+
+  position: absolute;
+  right: 40px;
+}

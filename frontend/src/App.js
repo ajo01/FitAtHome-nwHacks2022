@@ -4,6 +4,14 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MainPage } from "./components";
 
 function App() {
+  // fetch backend data
+  // useEffect(() => {
+  //   effect;
+  //   return () => {
+  //     cleanup;
+  //   };
+  // }, [input]);
+
   return (
     <div className="App">
       <Router>
