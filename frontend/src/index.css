@@ -1,3 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Poppins:wght@300&display=swap");
+
+/* colors / styles here */
+:root {
+  --borderRadius: 20px;
+  --darkblue: #09093b;
+  --brightblue: #00a5e0;
+  --green: #80dd47;
+  --red: #ff5858;
+}
+
 body {
-  width: 100%;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+html {
+  scroll-behavior: smooth;
 }

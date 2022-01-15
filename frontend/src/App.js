@@ -1,9 +1,21 @@
 import "./App.css";
+import axios from "axios";
+import { useState } from "react";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MainPage } from "./components";
 
 function App() {
+  const [cnt, setCnt] = useState(0);
+
+  // fetch backend data
+  // useEffect(() => {
+  //   effect;
+  //   return () => {
+  //     cleanup;
+  //   };
+  // }, [input]);
+
   return (
     <div className="App">
       <Router>
