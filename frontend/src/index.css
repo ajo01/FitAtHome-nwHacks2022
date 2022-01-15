@@ -4,10 +4,12 @@
 :root {
   --borderRadius: 20px;
   --darkblue: #09093b;
+  --brightblue: #00a5e0;
+  --green: #80dd47;
+  --red: #ff5858;
 }
 
 body {
-  overflow: hidden;
   margin: 0;
   font-family: "Poppins", sans-serif;
 }
