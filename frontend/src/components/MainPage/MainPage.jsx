@@ -12,7 +12,7 @@ const MainPage = () => {
       </div>
       <div style={{ height: "30px", width: "100%" }} />
       <SelectBodyPart />
-      <Workouts />
+      <Workouts className={styles.workoutSection} />
     </div>
   );
 };

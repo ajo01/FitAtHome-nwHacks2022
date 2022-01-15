@@ -2,13 +2,6 @@ import React from "react";
 import styles from "./Workouts.module.css";
 import Workout from "./Workout/Workout";
 
-import Squat from "../../images/squat.jpeg";
-import Lunges from "../../images/lunge.jpeg";
-import Pushup from "../../images/pushup.jpeg";
-import Barbell from "../../images/barbell.jpeg";
-import SideLateral from "../../images/sidelateral.jpeg";
-import Superman from "../../images/superman.jpeg";
-
 const Workouts = () => {
   const bodyPart = {
     ARM: "arm",
@@ -20,54 +13,64 @@ const Workouts = () => {
   };
   const workoutList = [
     {
+      key: 0,
       name: "Squats",
       type: bodyPart.LEGS,
-      image: <img src={<Squat />} alt="squat" />,
+      image: "",
     },
     {
+      key: 1,
       name: "Lunges",
       type: bodyPart.LEGS,
-      image: <img src={<Lunges />} alt="squat" />,
+      image: "",
     },
     {
+      key: 2,
       name: "Barbell Bench Press",
       type: bodyPart.ARM,
-      image: <img src={<Barbell />} alt="barbell" />,
+      image: "",
     },
     {
+      key: 3,
       name: "Pushups",
       type: bodyPart.CHEST,
-      image: <img src={<Pushup />} alt="squat" />,
+      image: "",
     },
     {
+      key: 4,
       name: "Biceps curls",
       type: bodyPart.CHEST,
-      image: <img src={<Squat />} alt="squat" />,
+      image: "",
     },
     {
+      key: 5,
       name: "Situps",
       type: bodyPart.CORE,
-      image: <img src={<Squat />} alt="squat" />,
+      image: "",
     },
     {
+      key: 6,
       name: "Plank",
       type: bodyPart.CORE,
-      image: <img src={<Squat />} alt="squat" />,
+      image: "",
     },
     {
+      key: 7,
       name: "Superman",
       type: bodyPart.BACK,
-      image: <img src={<Superman />} alt="squat" />,
+      image: "",
     },
     {
+      key: 8,
       name: "One-arm dumbbell row",
       type: bodyPart.BACK,
-      image: <img src={<Squat />} alt="squat" />,
+      image: "",
     },
     {
+      key: 9,
       name: "Side Lateral Raises",
       type: bodyPart.SHOULDER,
-      image: <img src={<SideLateral />} alt="squat" />,
+      image: "",
     },
   ];
 
@@ -79,6 +82,7 @@ const Workouts = () => {
             name={workout.name}
             type={workout.type}
             image={workout.image}
+            key={workout.key}
           />
         ))}
       </div>
