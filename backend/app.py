@@ -188,6 +188,15 @@ async def offer(request):
             pc.addTrack(player.audio)
             recorder.addTrack(track)
         elif track.kind == "video":
+            exit = false
+            while not exit:
+                try:
+                    datachannel
+                    exit = true
+                except NameError:
+                    print("e")
+            
+
             pc.addTrack(
                 VideoTransformTrack(
                     relay.subscribe(track), transform=params["video_transform"], datachannel=datachannel
