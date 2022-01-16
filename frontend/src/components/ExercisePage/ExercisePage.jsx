@@ -19,6 +19,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
 
   const MessagePopUp = () => {
     // if (!setShow) return null;
+    // reminder! replace with msg later
     return <div id={styles.alertMsg}>Great job! Keep going.</div>;
   };
 
