@@ -16,7 +16,7 @@
   top: 40px;
   width: 800px;
   height: 80px;
-  background-color: var(--brightblue);
+  background-color: var(--yellow);
   margin-left: auto;
   margin-right: auto;
   border-radius: 10px;
@@ -37,7 +37,7 @@
   right: 10%;
   bottom: 10%;
   padding: 20px 40px;
-  background-color: var(--darkred);
+  background-color: var(--red);
   font-size: 1.5rem;
   border-radius: 10px;
   transition: all 0.2s ease-in-out;
@@ -46,7 +46,7 @@
 }
 
 #endBtn:hover {
-  background-color: #bf2626;
+  background-color: var(--darkred);
 }
 
 #top,
