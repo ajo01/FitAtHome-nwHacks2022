@@ -29,15 +29,10 @@ function App() {
           <Route path="/home" element={<MainPage />} />
           <Route
             path="/exercise"
-            element={
-              <ExercisePage
-                videoFeed={videoFeed}
-                cnt={cnt}
-                postureMsg={postureMsg}
-              />
-            }
+            element={<ExercisePage cnt={cnt} postureMsg={postureMsg} />}
           />
           <Route path="/player" element={<Webplayer />} />
+          <Route path="/report" element={<Webplayer />} />
         </Routes>
       </Router>
     </div>

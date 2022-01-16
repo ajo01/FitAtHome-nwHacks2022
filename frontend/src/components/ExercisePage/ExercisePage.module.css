@@ -6,8 +6,9 @@
 }
 
 .videoContainer {
-  width: 100%;
+  width: auto;
   height: 100%;
+  object-fit: fill;
 }
 
 #alertMsg {
@@ -35,9 +36,9 @@
   position: absolute;
   right: 10%;
   bottom: 10%;
-  padding: 15px 40px;
+  padding: 20px 40px;
   background-color: var(--red);
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   border-radius: 10px;
   transition: all 0.2s ease-in-out;
   color: white;

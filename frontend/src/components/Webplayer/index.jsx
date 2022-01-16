@@ -17,7 +17,7 @@ export const Webplayer = (props) => {
 
     // connect audio / video
     pc.addEventListener("track", function (evt) {
-      if (evt.track.kind == "video")
+      if (evt.track.kind === "video")
         document.getElementById("video").srcObject = evt.streams[0];
     });
 
@@ -122,7 +122,12 @@ export const Webplayer = (props) => {
   start();
   return (
     <div>
-      <video id="video" autoPlay="true" playsInline="true"></video>
+      <video
+        style={{ height: "auto", width: "100%" }}
+        id="video"
+        autoPlay={true}
+        playsInline={true}
+      ></video>
     </div>
   );
 };
