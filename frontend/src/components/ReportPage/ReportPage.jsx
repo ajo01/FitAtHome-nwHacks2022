@@ -31,7 +31,7 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
         }}
         transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
       >
-        <div className={styles.inline}>
+        <div className={styles.inline} id={styles.firstInline}>
           <img className={styles.icons} src={Check} alt="check img" />
           <div className={styles.text}>Percentage of correct form</div>
           <div className={styles.rightAlign}>94%</div>
