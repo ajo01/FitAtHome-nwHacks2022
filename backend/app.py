@@ -188,11 +188,11 @@ async def offer(request):
             pc.addTrack(player.audio)
             recorder.addTrack(track)
         elif track.kind == "video":
-            exit = false
+            exit = False
             while not exit:
                 try:
                     datachannel
-                    exit = true
+                    exit = True
                 except NameError:
                     print("e")
             
