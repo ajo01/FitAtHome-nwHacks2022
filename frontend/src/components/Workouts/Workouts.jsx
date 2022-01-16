@@ -39,9 +39,9 @@ const Workouts = ({ type }) => {
     },
     {
       key: 4,
-      name: "Bicep Extensions",
+      name: "Lateral Raises",
       type: bodyPart.ARM,
-      image: "/workouticons/Arm/BicepExtensions.png",
+      image: "/workouticons/Arm/lateralRaises.png",
     },
     {
       key: 5,
