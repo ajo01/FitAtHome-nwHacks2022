@@ -53,7 +53,7 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalM
         .then(function () {
           var offer = pc.localDescription;
 
-          return fetch("http://localhost:8080/offer", {
+          return fetch("https://nwhackfitapi.herokuapp.com/offer", {
             body: JSON.stringify({
               sdp: offer.sdp,
               type: offer.type,
