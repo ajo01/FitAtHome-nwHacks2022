@@ -48,7 +48,7 @@ function negotiate() {
     }).then(function() {
         var offer = pc.localDescription;
 
-        return fetch('http://localhost:80/offer', {
+        return fetch('http://localhost:8080/offer', {
             body: JSON.stringify({
                 sdp: offer.sdp,
                 type: offer.type,
@@ -90,7 +90,7 @@ function start() {
   };
   dc.onopen = function () {};
   dc.onmessage = function (evt) {
-    // TODO
+    console.log(evt)
   };
 
   var constraints = {

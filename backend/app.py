@@ -31,13 +31,17 @@ class VideoTransformTrack(MediaStreamTrack):
 
     kind = "video"
 
-    def __init__(self, track, transform):
+    def __init__(self, track, transform, datachannel):
         super().__init__()  # don't forget this!
         self.track = track
         self.transform = transform
+        self.datachannel = datachannel
 
     async def recv(self):
         frame = await self.track.recv()
+        logger.info(str(datachannel))
+        if datachannel != "1":
+            datachannel.send("hello")
 
         if self.transform == "cartoon":
             img = frame.to_ndarray(format="bgr24")
@@ -144,8 +148,13 @@ async def offer(request):
     #     recorder = MediaBlackhole()
     recorder = MediaBlackhole()
 
+    datachannel = "1"
+
     @pc.on("datachannel")
     def on_datachannel(channel):
+        global datachannel
+        datachannel = channel
+
         @channel.on("message")
         def on_message(message):
             if isinstance(message, str) and message.startswith("ping"):
@@ -159,7 +168,7 @@ async def offer(request):
             pcs.discard(pc)
 
     @pc.on("track")
-    def on_track(track):
+    def on_track(track):        
         log_info("Track %s received", track.kind)
 
         if track.kind == "audio":
@@ -168,7 +177,7 @@ async def offer(request):
         elif track.kind == "video":
             pc.addTrack(
                 VideoTransformTrack(
-                    relay.subscribe(track), transform=params["video_transform"]
+                    relay.subscribe(track), transform=params["video_transform"], datachannel=datachannel
                 )
             )
             if args.record_to:
