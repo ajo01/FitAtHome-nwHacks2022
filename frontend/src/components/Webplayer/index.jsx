@@ -1,4 +1,4 @@
-export const Webplayer = (props) => {
+export const Webplayer = ({ setBorderColor }) => {
   // get DOM elements
 
   // peer connection
@@ -49,7 +49,7 @@ export const Webplayer = (props) => {
       .then(function () {
         var offer = pc.localDescription;
 
-        return fetch("https://20.121.197.20/offer", {
+        return fetch("http://localhost:8080/offer", {
           body: JSON.stringify({
             sdp: offer.sdp,
             type: offer.type,
@@ -94,7 +94,7 @@ export const Webplayer = (props) => {
     };
     dc.onopen = function () {};
     dc.onmessage = function (evt) {
-      // TODO
+      setBorderColor(evt.data.split(" ")[0])
     };
 
     var constraints = {
@@ -121,9 +121,9 @@ export const Webplayer = (props) => {
 
   start();
   return (
-    <div>
+    <div style={{display: "flex", width: "100%", height: "100%"}}>
       <video
-        style={{ height: "auto", width: "100%" }}
+        style={{ flexGrow: "1", maxHeight: "100%", maxWidth: "100%" }}
         id="video"
         autoPlay={true}
         playsInline={true}
