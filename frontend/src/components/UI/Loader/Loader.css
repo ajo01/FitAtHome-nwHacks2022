@@ -4,12 +4,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--darkblue);
+  background-color: var(--brightblue);
 }
 
 .position {
   position: fixed;
-  top: 40%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

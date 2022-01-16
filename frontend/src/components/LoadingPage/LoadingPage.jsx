@@ -5,6 +5,9 @@ import { Webplayer } from "../Webplayer";
 import PTChar from "../../images/PTChar.png";
 import { ExercisePage } from "..";
 
+import { motion } from "framer-motion";
+import DotLoader from "../UI/DotLoader/DotLoader";
+
 const LoadingPage = () => {
   const [counter, setCounter] = React.useState(5);
 
@@ -13,16 +16,25 @@ const LoadingPage = () => {
   }, [counter]);
 
   return (
-    <div className={styles.screenBackground}>
-      <div className={styles.dialog}>
-        {counter > 0 ? (
-          <PopUp popUpText={"Starting in " + counter + "..."} />
-        ) : (
-          <ExercisePage />
-        )}
-        <img className={styles.icon} src={PTChar} />
-      </div>
-      <Webplayer />
+    <div>
+      <DotLoader />
+      <motion.div
+        className={styles.screenBackground}
+        animate={{
+          opacity: [0, 0.4, 0.7, 1],
+        }}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 1.3 }}
+      >
+        <div className={styles.dialog}>
+          {counter > 0 ? (
+            <PopUp popUpText={"Starting in " + counter + "..."} />
+          ) : (
+            <ExercisePage />
+          )}
+          <img className={styles.icon} src={PTChar} />
+        </div>
+        <Webplayer />
+      </motion.div>
     </div>
   );
 };
