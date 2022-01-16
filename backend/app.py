@@ -117,11 +117,14 @@ class VideoTransformTrack(MediaStreamTrack):
                     message="Slow-Down"
 
 
-                if datachannel != "1":
-                    if self.prevColor != color or self.prevCount != self.count:
-                        self.prevColor = color
-                        self.prevCount = self.count
-                        datachannel.send(color + " " + str(self.dir) + " " + str(self.count) + " " + str(per) + " " + message)
+                try:
+                    if datachannel != "1":
+                        if self.prevColor != color or self.prevCount != self.count:
+                            self.prevColor = color
+                            self.prevCount = self.count
+                            datachannel.send(color + " " + str(self.dir) + " " + str(self.count) + " " + str(per) + " " + message)
+                except NameError:
+                    print("err")
 
 
             new_frame = VideoFrame.from_ndarray(img, format="bgr24")
