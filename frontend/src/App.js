@@ -10,6 +10,7 @@ import {
 import { MainPage, ReportPage } from "./components";
 import { ExercisePage } from "./components";
 import { Webplayer } from "./components/Webplayer/index";
+import { LoadingPage } from "./components"
 
 function App() {
   const [cnt, setCnt] = useState(0);
@@ -28,18 +29,19 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route exact path="/" element={<MainPage />} />
-          <Route path="/home" element={<MainPage />} />
-          <Route
-            path="/exercise"
-            element={<ExercisePage cnt={cnt} postureMsg={postureMsg} />}
-          />
-          <Route path="/player" element={<Webplayer />} />
-          <Route path="/report" element={<ReportPage />} />
-        </Routes>
-      </Router>
+        <Router>
+          <Routes>
+            <Route exact path="/" element={<MainPage />} />
+            <Route path="/home" element={<MainPage />} />
+            <Route
+              path="/exercise"
+              element={<ExercisePage cnt={cnt} postureMsg={postureMsg} />}
+            />
+            <Route path="/loading" element={<LoadingPage />} />
+            <Route path="/player" element={<Webplayer />} />
+            <Route path="/report" element={<ReportPage />} />
+          </Routes>
+        </Router>
     </div>
   );
 }

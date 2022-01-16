@@ -26,7 +26,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   };
 
   const endWorkout = () => {
-    console.log("end workout");
+    console.log("end workout"); //redirect to screen 4
   };
 
   return (
