@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { Webplayer } from "../Webplayer";
 
 const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
-
-  const [color, setColor] = useState("red")
+  const [color, setColor] = useState("red");
 
   // change it to false for production
   const [show, setShow] = useState(true);
@@ -27,7 +26,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   };
 
   const endWorkout = () => {
-    console.log("end workout"); //redirect to screen 4
+    window.location.href = "/report";
   };
 
   return (
@@ -38,7 +37,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       <div id={styles.left} />
       <div id={styles.right} />
       <div id={styles.top} />
-      <div id={styles.bottom} /> 
+      <div id={styles.bottom} />
 
       <Webplayer />
       <button id={styles.endBtn} onClick={endWorkout}>
