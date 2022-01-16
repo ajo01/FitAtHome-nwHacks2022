@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./Workouts.module.css";
 import Workout from "./Workout/Workout";
 
-const Workouts = ({type}) => {
+import { motion } from "framer-motion";
+const Workouts = ({ type }) => {
   const bodyPart = {
     ARM: "arm",
     LEGS: "leg",
@@ -158,23 +159,29 @@ const Workouts = ({type}) => {
     },
   ];
 
-  console.log({workoutList, type})
+  console.log({ workoutList, type });
 
   return (
-    <div className={styles.workouts}>
+    <motion.div
+      className={styles.workouts}
+      animate={{
+        opacity: [0, 0.4, 0.7, 1],
+      }}
+      transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+    >
       <div className={styles.gridContainer}>
         {workoutList
           .filter((workout) => workout.type === type.toLowerCase())
           .map((workout) => (
-          <Workout
-            name={workout.name}
-            type={workout.type}
-            image={workout.image}
-            key={workout.name}
-          />
-        ))}
+            <Workout
+              name={workout.name}
+              type={workout.type}
+              image={workout.image}
+              key={workout.name}
+            />
+          ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

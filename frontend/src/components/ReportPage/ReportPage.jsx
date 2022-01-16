@@ -4,6 +4,7 @@ import Check from "../../images/check.png";
 import Clock from "../../images/schedule.png";
 import Warning from "../../images/report_problem.png";
 import Title from "../../images/WorkoutSummary.png";
+import { motion } from "framer-motion";
 
 const ReportPage = ({ correctPercentage, repNum, problems }) => {
   const navExercise = () => {
@@ -12,12 +13,25 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
   const navHome = () => {
     window.location.href = "/";
   };
-
   return (
     <div className={styles.reportContainer}>
-      <img className={styles.title} src={Title} alt="summary title" />
-      <div id={styles.modal}>
-        <div className={styles.inline}>
+      <motion.img
+        animate={{
+          opacity: [0, 0.4, 0.7, 1],
+        }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className={styles.title}
+        src={Title}
+        alt="summary title"
+      />
+      <motion.div
+        id={styles.modal}
+        animate={{
+          opacity: [0, 0.4, 0.7, 1],
+        }}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+      >
+        <div className={styles.inline} id={styles.firstInline}>
           <img className={styles.icons} src={Check} alt="check img" />
           <div className={styles.text}>Percentage of correct form</div>
           <div className={styles.rightAlign}>94%</div>
@@ -40,22 +54,30 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
             </ol>
           </div>
         </div>
-        <button
+        <motion.button
           className={styles.reportBtn}
           id={styles.resumeBtn}
           onClick={navExercise}
+          animate={{
+            opacity: [0, 0.4, 0.7, 1],
+          }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
           Resume Workout
-        </button>
+        </motion.button>
 
-        <button
+        <motion.button
           className={styles.reportBtn}
           id={styles.backBtn}
           onClick={navHome}
+          animate={{
+            opacity: [0, 0.4, 0.7, 1],
+          }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
           Back to Main Menu
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
     </div>
   );
 };
