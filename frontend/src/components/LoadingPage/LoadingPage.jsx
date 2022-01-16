@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./LoadingPage.module.css";
 import PopUp from "./PopUp";
 import { Webplayer } from "../Webplayer";
-import PTChar from "../MainPage/img/PTChar.png"
+import PTChar from "../../images/PTChar.png"
 import { ExercisePage } from "..";
 
 const LoadingPage = () => {
