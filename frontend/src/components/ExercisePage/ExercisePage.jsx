@@ -20,7 +20,6 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   }, []);
 
   const MessagePopUp = () => {
-    // if (!setShow) return null;
     // reminder! replace with msg later
     return <div id={styles.alertMsg}>Great job! Keep going.</div>;
   };
@@ -34,7 +33,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       className={styles.exercisePage}
       style={{ backgroundColor: borderColor, display: "flex" }}
     >
-      {MessagePopUp()}
+      {show && MessagePopUp()}
 
       <div style={{ flexGrow: "1", margin: "20px", backgroundColor: "white" }}>
         <Webplayer setBorderColor={setBorderColor} />
