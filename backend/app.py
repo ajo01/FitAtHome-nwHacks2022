@@ -118,7 +118,6 @@ class VideoTransformTrack(MediaStreamTrack):
 
 
                 if datachannel != "1":
-                    logger.info(color + " " + str(self.halfway) + " " + str(time.time()))
                     if self.prevColor != color or self.prevCount != self.count:
                         self.prevColor = color
                         self.prevCount = self.count

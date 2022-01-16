@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps }) => {
+export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalMessage }) => {
   // get DOM elements
 
   useEffect(() => {
@@ -93,6 +93,7 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps }) => {
 
       const parameters = { ordered: true };
 
+      let totalMessage = ""
       dc = pc.createDataChannel("chat", parameters);
       dc.onclose = function () {
         clearInterval(dcInterval);
@@ -100,7 +101,14 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps }) => {
       dc.onopen = function () {};
       dc.onmessage = function (evt) {
         if (setBorderColor) setBorderColor(evt.data.split(" ")[0]);
-        if (sendMessage && evt.data.split(" ")[4] !== "none") sendMessage(evt.data.split(" ")[4].replaceAll("-", " "))
+        if (sendMessage && evt.data.split(" ")[4] !== "none") {
+          const msg = evt.data.split(" ")[4].replaceAll("-", " ")
+          sendMessage(msg)
+          if (totalMessage.split("~~").find(r => r === msg) === undefined) {
+            totalMessage = totalMessage + "~~" + msg
+            setTotalMessage(totalMessage)
+          }
+        } 
         if (setTotalReps) {
           setTotalReps(parseInt(evt.data.split(" ")[2]))
         }

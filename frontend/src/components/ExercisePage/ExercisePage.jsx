@@ -1,28 +1,29 @@
 import React from "react";
 import styles from "./ExercisePage.module.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Webplayer } from "../Webplayer";
 import PTChar from "../../images/PTChar.png";
+
+function usePushToText(init) {
+  const [arr, setArr] = useState(init)
+  const addText = (cur) => {
+    setArr(arr + "~~" + cur)
+  }
+  return [arr, addText]
+}
 
 const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   const [borderColor, setBorderColor] = useState("green");
   const [totalReps, setTotalReps] = useState(0);
   const [totalMistakes, setTotalMistakes] = useState(0)
-  const [allMistakesText, setAllMistakesText] = useState([])
+  const [totalMessage, setTotalMessage] = useState("")
 
   // change it to false for production
   const [message, setMessage] = useState("");
   const [show, setShow] = useState(false);
   const [timeoutFunc, setTimeoutFunc] = useState(null);
 
-  const sendMessage = (ms) => {
-    if (allMistakesText.find(r => r === ms) === undefined) {
-      console.log(allMistakesText)
-      allMistakesText.push(ms)
-      console.log(...allMistakesText)
-      setAllMistakesText(...allMistakesText)
-    }
-    console.log(ms);
+  function sendMessage(ms) {
     if (ms === message) {
       return;
     }
@@ -40,11 +41,11 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       setTimeoutFunc(null);
       setMessage("");
     }, 3000);
-    setTimeoutFunc(timeoutFunc);
+    setTimeoutFunc(newTimeoutFunc);
   };
 
   const endWorkout = () => {
-    window.location.href = `/report?mistake=${totalMistakes}&reps=${totalReps}&mistakeList=${encodeURIComponent(JSON.stringify({a: allMistakesText}))}`;
+    window.location.href = `/report?mistake=${totalMistakes}&reps=${totalReps}&mistakeList=${totalMessage}`;
   };
 
   return (
@@ -58,10 +59,10 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       </div>
 
       <div style={{ flexGrow: "1", margin: "20px", backgroundColor: "white" }}>
-        <Webplayer setBorderColor={setBorderColor} sendMessage={sendMessage}  setTotalReps={setTotalReps} />
+        <Webplayer setBorderColor={setBorderColor} sendMessage={sendMessage}  setTotalReps={setTotalReps} setTotalMessage={setTotalMessage} />
       </div>
       <button id={styles.endBtn} onClick={endWorkout}>
-        End Workout {totalReps}
+        End Workout
       </button>
     </div>
   );

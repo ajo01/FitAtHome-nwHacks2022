@@ -19,7 +19,6 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
     urlSearchParams.entries()
   );
 
-  console.log(JSON.parse(mistakeList).a.map(r => r))
 
   return (
     <div className={styles.reportContainer}>
@@ -53,10 +52,10 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
         <div className={styles.border} />
         <div className={styles.inline}>
           <img className={styles.icons} src={Warning} alt="warning img" />
-          <div className={styles.text}>Most common problems:</div>
+          <div className={styles.text}>How to Improve</div>
           <div id={styles.problemList}>
             <ol>
-              {JSON.parse(mistakeList).a.map(r => (
+              {mistakeList.substring(2).split("~~").map(r => (
                 <li>{r}</li>
               ))}
             </ol>
