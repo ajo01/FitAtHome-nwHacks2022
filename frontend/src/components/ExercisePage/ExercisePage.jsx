@@ -8,22 +8,28 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   const [borderColor, setBorderColor] = useState("green");
 
   // change it to false for production
-  const [show, setShow] = useState(true);
-  const [playSound, setPlaySound] = useState(true);
+  const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
+  const [timeoutFunc, setTimeoutFunc] = useState(null);
 
-  useEffect(() => {
-    const timeId = setTimeout(() => {
+  const sendMessage = (ms) => {
+    console.log(ms);
+    if (ms === message) {
+      return;
+    }
+
+    if (show) {
+      clearTimeout(timeoutFunc);
+    }
+
+    setShow(true);
+    setMessage(ms);
+    const newTimeoutFunc = setTimeout(() => {
       setShow(false);
-    }, 5000);
-    return () => {
-      clearTimeout(timeId);
-    };
-  }, []);
-
-  const MessagePopUp = () => {
-    // if (!setShow) return null;
-    // reminder! replace with msg later
-    return <div id={styles.alertMsg}>Great job! Keep going.</div>;
+      setTimeoutFunc(null);
+      setMessage("");
+    }, 3000);
+    setTimeoutFunc(timeoutFunc);
   };
 
   const endWorkout = () => {
@@ -35,15 +41,15 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       className={styles.exercisePage}
       style={{ backgroundColor: borderColor, display: "flex" }}
     >
-      <div>
-        {MessagePopUp()}
+      <div style={{ visibility: show ? "visible" : "hidden" }}>
+        <div id={styles.alertMsg}>{message}</div>;{" "}
         <img className={styles.icon} src={PTChar} />
       </div>
 
       <div style={{ flexGrow: "1", margin: "20px", backgroundColor: "white" }}>
-        <Webplayer setBorderColor={setBorderColor} />
+        <Webplayer setBorderColor={setBorderColor} sendMessage={sendMessage} />
       </div>
-      <button id={styles.endBtn} onClick={endWorkout}>
+      <button id={styles.endBtn} onClick={endWorkout} sendMessage={sendMessage}>
         End Workout
       </button>
     </div>

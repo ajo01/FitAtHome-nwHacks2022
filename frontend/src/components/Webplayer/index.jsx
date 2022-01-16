@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const Webplayer = ({ setBorderColor }) => {
+export const Webplayer = ({ setBorderColor, sendMessage }) => {
   // get DOM elements
 
   useEffect(() => {
@@ -99,7 +99,9 @@ export const Webplayer = ({ setBorderColor }) => {
       };
       dc.onopen = function () {};
       dc.onmessage = function (evt) {
+        console.log(evt.data)
         if (setBorderColor) setBorderColor(evt.data.split(" ")[0]);
+        if (sendMessage && evt.data.split(" ")[4] !== "none") sendMessage(evt.data.split(" ")[4].replaceAll("-", " "))
       };
 
       var constraints = {

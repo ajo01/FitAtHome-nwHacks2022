@@ -58,11 +58,11 @@ class VideoTransformTrack(MediaStreamTrack):
 
             if (not angle == -1) and (not angle1 == -1):
                 if angle1 < 83:
-                    cv2.putText(img, str("Move hands higher"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                    cv2.putText(img, str("Move your hands higher!"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
                                 (255, 0, 0), 10)
                     message=""
                 if angle1 > 83:
-                    cv2.putText(img, str("Move hands lower"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                    cv2.putText(img, str("Move your hands lower!"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
                                 (255, 0, 0), 10)
                 
                 per = np.interp(angle1, (20, 83), (0, 100))
@@ -76,11 +76,11 @@ class VideoTransformTrack(MediaStreamTrack):
                 if self.halfway == 1:
                     if per < 30 and self.dir == 0:
                         color = "red"
-                        message = "higher"
+                        message = "Move-Your-Hands-Higher"
 
                     if per > 70 and self.dir == 1:
                         color = "red"
-                        message = "lower"
+                        message = "Move-Your-Hands-Lower"
 
                 else:
                     color = "grey"
