@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MainPage } from "./components";
 import { ExercisePage } from "./components";
+import { Webplayer } from "./components/Webplayer/index";
 
 function App() {
   const [cnt, setCnt] = useState(0);
@@ -25,6 +26,7 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<MainPage />} />
+          <Route path="/home" element={<MainPage />} />
           <Route
             path="/exercise"
             element={
@@ -35,6 +37,7 @@ function App() {
               />
             }
           />
+          <Route path="/player" element={<Webplayer />} />
         </Routes>
       </Router>
     </div>

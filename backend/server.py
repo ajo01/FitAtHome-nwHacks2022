@@ -8,6 +8,7 @@ import uuid
 
 import cv2
 from aiohttp import web
+import aiohttp_cors
 from av import VideoFrame
 
 from aiortc import MediaStreamTrack, RTCPeerConnection, RTCSessionDescription
@@ -119,7 +120,7 @@ async def offer(request):
     #     recorder = MediaRecorder(args.record_to)
     # else:
     #     recorder = MediaBlackhole()
-	recorder = MediaBlackhole()
+    recorder = MediaBlackhole()
 
     @pc.on("datachannel")
     def on_datachannel(channel):
@@ -207,10 +208,16 @@ if __name__ == "__main__":
         ssl_context = None
 
     app = web.Application()
+    cors = aiohttp_cors.setup(app)
+
     app.on_shutdown.append(on_shutdown)
     app.router.add_get("/", index)
     app.router.add_get("/client.js", javascript)
-    app.router.add_post("/offer", offer)
+    resource = cors.add(app.router.add_resource("/offer"), {
+		"*": aiohttp_cors.ResourceOptions(allow_methods=["POST"], expose_headers="*",
+            allow_headers="*",)
+	})
+    resource.add_route("POST", offer)
     web.run_app(
         app, access_log=None, host=args.host, port=args.port, ssl_context=ssl_context
     )
