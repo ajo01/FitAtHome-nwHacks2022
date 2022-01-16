@@ -1,7 +1,12 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  HashRouter,
+} from "react-router-dom";
 import { MainPage, ReportPage } from "./components";
 import { ExercisePage } from "./components";
 import { Webplayer } from "./components/Webplayer/index";
@@ -31,7 +36,6 @@ function App() {
             path="/exercise"
             element={<ExercisePage cnt={cnt} postureMsg={postureMsg} />}
           />
-          {/* player link is for demo use */}
           <Route path="/player" element={<Webplayer />} />
           <Route path="/report" element={<ReportPage />} />
         </Routes>

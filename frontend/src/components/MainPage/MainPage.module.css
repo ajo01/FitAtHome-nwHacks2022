@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap");
 
 .mainPage {
-  background: url('img/background.jpg') no-repeat center center fixed; 
+  background: url("img/background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -29,15 +29,15 @@
 
 .mainHeader {
   font-size: 45px;
-  margin-bottom:0;
+  margin-bottom: 0;
   margin-top: 0;
-  font-family: 'Bowlby One';
+  font-family: "Bowlby One";
 }
 
 .subHeader {
   font-size: 20px;
   margin-top: 0;
-  font-family: 'Bowlby One';
+  font-family: "Bowlby One";
 }
 
 .headerSection {

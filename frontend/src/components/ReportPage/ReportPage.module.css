@@ -1,5 +1,5 @@
 .reportContainer {
-  background-color: var(--darkblue);
+  background-color: rgb(164, 164, 193);
   width: 100%;
   height: 100%;
   position: absolute;
@@ -20,34 +20,72 @@
   height: 480px;
 }
 
+.inline {
+  width: 100%;
+  display: inline-flex;
+  left: 0;
+}
+
+.icons {
+  width: 70px;
+  height: 70px;
+  margin: auto 20px;
+}
+
+.text {
+  padding: 30px;
+  font-size: 1.5rem;
+}
+
+.rightAlign {
+  padding: 30px;
+  font-size: 1.5rem;
+  right: 15%;
+  position: absolute;
+}
+
 .reportBtn {
   position: absolute;
   padding: 15px 40px;
   font-size: 1rem;
   border-radius: 10px;
   transition: all 0.2s ease-in-out;
-
   border: none;
   font-size: 1.5rem;
+  color: white;
+}
+
+.border {
+  width: 95%;
+  margin: auto;
+  height: 2px;
+  background-color: var(--grey);
 }
 
 #resumeBtn {
   bottom: 10%;
   right: 30%;
-  background-color: var(--brightblue);
-  color: white;
+  background-color: var(--darkblue);
 }
 
 #backBtn {
   bottom: 10%;
   right: 10%;
-  background-color: var(--green);
+
+  background-color: var(--brightblue);
 }
 
 #resumeBtn:hover {
-  background-color: rgb(3, 128, 186);
+  background-color: rgb(48, 53, 79);
 }
 
 #backBtn:hover {
-  background-color: rgb(30, 176, 55);
+  background-color: rgb(30, 90, 143);
+}
+
+#problemList {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 400px;
+  margin-left: 10vw;
 }
