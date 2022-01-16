@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Webplayer } from "../Webplayer";
 
 const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
+  const [borderColor, setBorderColor] = useState("green")
+
   // change it to false for production
   const [show, setShow] = useState(true);
   const [playSound, setPlaySound] = useState(true);
@@ -28,14 +30,12 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   };
 
   return (
-    <div className={styles.exercisePage}>
+    <div className={styles.exercisePage} style={{ backgroundColor: borderColor, display: "flex"}}>
       {MessagePopUp()}
-      <div id={styles.left} />
-      <div id={styles.right} />
-      <div id={styles.top} />
-      <div id={styles.bottom} />
 
-      <Webplayer />
+      <div style={{ flexGrow: "1", margin: "20px", backgroundColor: "white"}}>
+       <Webplayer  setBorderColor={setBorderColor} />
+      </div>
       <button id={styles.endBtn} onClick={endWorkout}>
         End Workout
       </button>

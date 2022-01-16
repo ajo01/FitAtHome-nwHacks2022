@@ -41,7 +41,6 @@ class VideoTransformTrack(MediaStreamTrack):
 
     async def recv(self):
         frame = await self.track.recv()
-        logger.info(str(datachannel))
 
         if self.transform == "cartoon":
             print('hjello')
