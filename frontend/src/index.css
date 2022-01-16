@@ -8,8 +8,12 @@
   --green: #80dd47;
   --red: #ff5858;
   --grey: #b5b5b5;
+<<<<<<< HEAD
   --yellow: #FFC700;
   --brown: #511D00;
+=======
+  --darkred: rgb(198, 28, 28);
+>>>>>>> bd252493e9df38a8eb7dadbb4efe1c686a34494f
 }
 
 body {

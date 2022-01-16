@@ -240,6 +240,7 @@ if __name__ == "__main__":
                                           allow_headers="*",)
     })
     resource.add_route("POST", offer)
+    port = os.getenv('PORT')
     web.run_app(
-        app, access_log=None, host=args.host, port=args.port, ssl_context=ssl_context
+        app, access_log=None, host=args.host, port=port, ssl_context=ssl_context
     )
