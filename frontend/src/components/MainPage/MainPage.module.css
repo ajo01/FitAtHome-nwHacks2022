@@ -17,9 +17,9 @@
   height: 120px;
   margin: 0;
   color: white;
-  text-shadow: 0px 4px 5px black;
+  text-shadow: 0px 4px 5px var(--brown);
   -webkit-text-stroke-width: 0.5px;
-  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-color: var(--brown);
 }
 
 .mainContent {
