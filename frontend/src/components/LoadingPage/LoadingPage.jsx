@@ -6,7 +6,7 @@ import PTChar from "../../images/PTChar.png"
 import { ExercisePage } from "..";
 
 const LoadingPage = () => {
-    const [counter, setCounter] = React.useState(5);
+    const [counter, setCounter] = React.useState(1);
 
     React.useEffect(() => {
         counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
@@ -18,7 +18,6 @@ const LoadingPage = () => {
             {counter > 0 ? <PopUp popUpText={"Starting in " + counter + "..."}/> : <ExercisePage/>}
                 <img className={styles.icon} src={PTChar}/>
             </div>
-            <Webplayer />
         </div>
     );
 };
