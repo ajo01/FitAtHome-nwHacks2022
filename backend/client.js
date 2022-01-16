@@ -41,11 +41,14 @@ function negotiate() {
               pc.removeEventListener("icegatheringstatechange", checkState);
               resolve();
             }
-        });
+          }
+          pc.addEventListener("icegatheringstatechange", checkState);
+        }
+      });
     }).then(function() {
         var offer = pc.localDescription;
 
-        return fetch('https://20.121.197.209/offer', {
+        return fetch('http://localhost:80/offer', {
             body: JSON.stringify({
                 sdp: offer.sdp,
                 type: offer.type,

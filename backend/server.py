@@ -5,6 +5,8 @@ import logging
 import os
 import ssl
 import uuid
+import PoseModule as pm
+import numpy as np
 
 import cv2
 from aiohttp import web
@@ -20,6 +22,7 @@ logger = logging.getLogger("pc")
 pcs = set()
 relay = MediaRelay()
 
+detector = pm.poseDetector()
 
 class VideoTransformTrack(MediaStreamTrack):
     """
@@ -89,7 +92,25 @@ class VideoTransformTrack(MediaStreamTrack):
             new_frame.time_base = frame.time_base
             return new_frame
         else:
-            return frame
+            img = frame.to_ndarray(format="bgr24")
+            img = detector.findPose(img, False)
+            lmList = detector.findPosition(img, draw=False)
+            
+            angle = detector.findAngle(img, 14, 12, 24)
+            angle1 = detector.findAngle(img, 13, 11, 23)
+            if angle1 < 83:
+                cv2.putText(img, str("Move hands higher"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                            (255, 0, 0), 10)
+            if angle1 > 83:
+                cv2.putText(img, str("Move hands lower"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                            (255, 0, 0), 10)
+            per = np.interp(angle1, (16, 83), (0, 100))
+            bar = np.interp(angle1, (16, 83), (650, 100))
+            
+            new_frame = VideoFrame.from_ndarray(img, format="bgr24")
+            new_frame.pts = frame.pts
+            new_frame.time_base = frame.time_base
+            return new_frame
 
 
 async def index(request):
