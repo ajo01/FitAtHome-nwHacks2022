@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Workouts.module.css";
 import Workout from "./Workout/Workout";
 
-const Workouts = () => {
+const Workouts = ({type}) => {
   const bodyPart = {
     ARM: "arm",
     LEGS: "leg",
@@ -16,158 +16,161 @@ const Workouts = () => {
       key: 0,
       name: "Squats",
       type: bodyPart.LEGS,
-      image: "",
-      // image: "./workouticons/Legs/Squats.png",
+      image: "/workouticons/Legs/Squats.png",
     },
     {
       key: 1,
-      name: "Lunges",
+      name: "Calf Raises",
       type: bodyPart.LEGS,
-      image: "",
+      image: "/workouticons/Legs/CalfRaises.png",
     },
     {
       key: 2,
-      name: "Cross Leg Swings",
+      name: "Side Leg Raises",
       type: bodyPart.LEGS,
-      image: "",
+      image: "/workouticons/Legs/SideLegRaises.png",
     },
     {
       key: 3,
-      name: "Calf Raises",
+      name: "Lunges",
       type: bodyPart.LEGS,
-      image: "",
+      image: "/workouticons/Legs/Lunges.png",
     },
     {
       key: 4,
-      name: "",
+      name: "Bicep Extensions",
       type: bodyPart.ARM,
-      image: "",
+      image: "/workouticons/Arm/BicepExtensions.png",
     },
     {
       key: 5,
       name: "Raised arm circles",
       type: bodyPart.ARM,
-      image: "",
+      image: "/workouticons/Arm/RaisedArmCircles.png",
     },
     {
       key: 6,
-      name: "Bicep Extensions",
+      name: "Shoulder Taps",
       type: bodyPart.ARM,
-      image: "",
+      image: "/workouticons/Arm/ShoulderTaps.png",
     },
     {
       key: 7,
       name: "Side Bicep Extensions",
       type: bodyPart.ARM,
-      image: "",
+      image: "/workouticons/Arm/SideBicepExtensions.png",
     },
     {
       key: 8,
       name: "Push up",
       type: bodyPart.CHEST,
-      image: "",
+      image: "/workouticons/Chest/pushUps.png",
     },
     {
       key: 9,
       name: "Plank Rotations",
       type: bodyPart.CHEST,
-      image: "",
+      image: "/workouticons/Chest/PlankRotations.png",
     },
     {
       key: 10,
-      name: "Shoulder Taps",
+      name: "Chest Expansions",
       type: bodyPart.CHEST,
-      image: "",
+      image: "/workouticons/Chest/chestExpansions.png",
     },
     {
       key: 11,
-      name: "Inch Worms",
+      name: "Upward Downward Dog",
       type: bodyPart.CHEST,
-      image: "",
+      image: "/workouticons/Chest/upwardDownwardDog.png",
     },
     {
       key: 12,
-      name: "Crunches",
+      name: "Climbers",
       type: bodyPart.CORE,
-      image: "",
+      image: "/workouticons/core/climbers.png",
     },
     {
       key: 13,
-      name: "Situps",
+      name: "Sitting Twists",
       type: bodyPart.CORE,
-      image: "",
+      image: "/workouticons/core/SittingTwists.png",
     },
     {
       key: 14,
-      name: "Planks",
+      name: "Side Bridges",
       type: bodyPart.CORE,
-      image: "",
+      image: "/workouticons/core/sideBridges.png",
     },
     {
       key: 15,
-      name: "Scissors",
+      name: "Planks",
       type: bodyPart.CORE,
-      image: "",
+      image: "/workouticons/core/planks.png",
     },
     {
       key: 16,
-      name: "Dumbbell Shrug",
+      name: "ArmChops",
       type: bodyPart.SHOULDER,
-      image: "",
+      image: "/workouticons/Shoulder/ArmChops.png",
     },
     {
       key: 17,
-      name: "Shoulder Press",
+      name: "Arm Scissors",
       type: bodyPart.SHOULDER,
-      image: "",
+      image: "/workouticons/Shoulder/ArmScissors.png",
     },
     {
       key: 18,
-      name: "Side Arm Raises",
+      name: "RaisedArmHold",
       type: bodyPart.SHOULDER,
-      image: "",
+      image: "/workouticons/Shoulder/RaisedArmHold.png",
     },
     {
       key: 19,
-      name: "Pike Press",
+      name: "SideArmRaises",
       type: bodyPart.SHOULDER,
-      image: "",
+      image: "/workouticons/Shoulder/sideArmRaises.png",
     },
     {
       key: 19,
-      name: "Diver Push Up",
+      name: "Back Arches",
       type: bodyPart.BACK,
-      image: "",
+      image: "/workouticons/Back/backArches.png",
     },
     {
       key: 19,
-      name: "Wall Arm Slides",
+      name: "ReverseAngels",
       type: bodyPart.BACK,
-      image: "",
+      image: "/workouticons/Back/ReverseAngels.png",
     },
     {
       key: 19,
-      name: "Lawn mower",
+      name: "Swimmers",
       type: bodyPart.BACK,
-      image: "",
+      image: "/workouticons/Back/swimmers.png",
     },
     {
       key: 19,
-      name: "Forward bends",
+      name: "W-extensions",
       type: bodyPart.BACK,
-      image: "",
+      image: "/workouticons/Back/W-extensions.png",
     },
   ];
+
+  console.log({workoutList, type})
 
   return (
     <div className={styles.workouts}>
       <div className={styles.gridContainer}>
-        {workoutList.map((workout) => (
+        {workoutList
+          .filter((workout) => workout.type === type.toLowerCase())
+          .map((workout) => (
           <Workout
             name={workout.name}
             type={workout.type}
             image={workout.image}
-            key={workout.key}
+            key={workout.name}
           />
         ))}
       </div>
