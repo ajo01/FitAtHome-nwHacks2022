@@ -19,7 +19,7 @@
   background-color: white;
   margin: auto;
   width: 80%;
-  height: 480px;
+  height: 60vh;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
@@ -54,7 +54,7 @@
 
 .reportBtn {
   position: absolute;
-  padding: 15px 40px;
+  padding: 2vh 2vw;
   font-size: 1rem;
   border-radius: 10px;
   transition: all 0.2s ease-in-out;

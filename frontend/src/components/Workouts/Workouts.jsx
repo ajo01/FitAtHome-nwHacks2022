@@ -167,7 +167,7 @@ const Workouts = ({ type }) => {
       animate={{
         opacity: [0, 0.4, 0.7, 1],
       }}
-      transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+      transition={{ duration: 1.2, ease: "easeOut", delay: 1.6 }}
     >
       <div className={styles.gridContainer}>
         {workoutList
