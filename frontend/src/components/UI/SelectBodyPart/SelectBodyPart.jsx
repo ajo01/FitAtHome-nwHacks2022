@@ -2,18 +2,17 @@ import React, { useState } from "react";
 import styles from "./SelectBodyPart.module.css";
 import MenuCard from "./MenuCard/MenuCard";
 
-const SelectBodyPart = () => {
-  const [activeTab, setActiveTab] = useState("Leg")
+const SelectBodyPart = ({type, setType}) => {
 
   return(
   <div className={styles.selectContainer}>
           <div className="menu">
-        <MenuCard workoutCategory="Leg" activeTab={activeTab} setActiveTab={setActiveTab} />
-        <MenuCard workoutCategory="Arm" activeTab={activeTab} setActiveTab={setActiveTab} />
-        <MenuCard workoutCategory="Chest" activeTab={activeTab} setActiveTab={setActiveTab} />
-        <MenuCard workoutCategory="Core" activeTab={activeTab} setActiveTab={setActiveTab} />
-        <MenuCard workoutCategory="Shoulder" activeTab={activeTab} setActiveTab={setActiveTab} />
-        <MenuCard workoutCategory="Back" activeTab={activeTab} setActiveTab={setActiveTab} />
+        <MenuCard workoutCategory="Leg" activeTab={type} setActiveTab={setType} />
+        <MenuCard workoutCategory="Arm" activeTab={type} setActiveTab={setType} />
+        <MenuCard workoutCategory="Chest" activeTab={type} setActiveTab={setType} />
+        <MenuCard workoutCategory="Core" activeTab={type} setActiveTab={setType} />
+        <MenuCard workoutCategory="Shoulder" activeTab={type} setActiveTab={setType} />
+        <MenuCard workoutCategory="Back" activeTab={type} setActiveTab={setType} />
       </div>
   </div>);
 };

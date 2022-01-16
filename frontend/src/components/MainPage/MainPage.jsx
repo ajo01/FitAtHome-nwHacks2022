@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./MainPage.module.css";
 import Workouts from "../Workouts/Workouts";
 import SelectBodyPart from "../UI/SelectBodyPart/SelectBodyPart";
 import PTChar from "./img/PTChar.png"
 const MainPage = () => {
+
+  const [type, setType] = useState("Arm")
 
   return (
     <div className={styles.mainPage}>
@@ -15,8 +17,8 @@ const MainPage = () => {
           <img className={styles.icon} src={PTChar}/>
       </div>
       <div className={styles.mainContent}>
-        <SelectBodyPart />
-        <Workouts className={styles.workoutSection} />
+        <SelectBodyPart type={type} setType={setType} />
+        <Workouts type={type} setType={setType} className={styles.workoutSection} />
       </div>
     </div>
 
