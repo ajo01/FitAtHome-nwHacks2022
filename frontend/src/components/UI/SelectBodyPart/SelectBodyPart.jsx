@@ -14,12 +14,12 @@ const SelectBodyPart = ({ type, setType }) => {
     >
       <div className="menu">
         <MenuCard
-          workoutCategory="Leg"
+          workoutCategory="Arm"
           activeTab={type}
           setActiveTab={setType}
         />
         <MenuCard
-          workoutCategory="Arm"
+          workoutCategory="Leg"
           activeTab={type}
           setActiveTab={setType}
         />

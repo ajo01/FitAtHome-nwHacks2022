@@ -5,7 +5,7 @@
   height: 100%;
   position: absolute;
   overflow-y: scroll;
-  font-family: "Comfortaa", cursive;
+  font-family: "Comfortaa";
 }
 
 .title {
@@ -35,13 +35,13 @@
 }
 
 .icons {
-  width: 70px;
-  height: 70px;
-  margin: auto 20px;
+  width: 65px;
+  height: 65px;
+  margin: 8.5px 0 8.5px 20px;
 }
 
 .text {
-  padding: 30px;
+  padding: 30px 30px 30px 20px;
   font-size: 1.5rem;
 }
 
@@ -55,11 +55,10 @@
 .reportBtn {
   position: absolute;
   padding: 2vh 2vw;
-  font-size: 1rem;
   border-radius: 10px;
   transition: all 0.2s ease-in-out;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
@@ -75,22 +74,26 @@
 #resumeBtn {
   bottom: 10%;
   right: 30%;
-  background-color: var(--darkblue);
+  font-family: 'Comfortaa';
+  background-color: var(--brown);
 }
 
 #backBtn {
   bottom: 10%;
   right: 10%;
-
-  background-color: var(--brightblue);
+  font-family: 'Comfortaa';
+  color: var(--brown);
+  background-color: var(--yellow);
 }
 
 #resumeBtn:hover {
-  background-color: rgb(48, 53, 79);
+  background-color: var(--darkbrown);
+  cursor: pointer;
 }
 
 #backBtn:hover {
-  background-color: rgb(37, 118, 169);
+  cursor: pointer;
+  background-color: var(--darkyellow);
 }
 
 #problemList {
