@@ -147,6 +147,10 @@ async def offer(request):
     params = await request.json()
     offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
+    for oldpc in pcs:
+        await oldpc.close()
+        pcs.discard(oldpc)
+
     pc = RTCPeerConnection()
     pc_id = "PeerConnection(%s)" % uuid.uuid4()
     pcs.add(pc)
