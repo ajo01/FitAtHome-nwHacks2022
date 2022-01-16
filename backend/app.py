@@ -241,5 +241,5 @@ if __name__ == "__main__":
     })
     resource.add_route("POST", offer)
     web.run_app(
-        app, access_log=None, host=args.host, port=args.port, ssl_context=ssl_context
+        app, access_log=None, host=args.host, port=port=os.getenv('PORT')), ssl_context=ssl_context
     )
