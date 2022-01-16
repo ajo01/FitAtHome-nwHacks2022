@@ -37,7 +37,7 @@
   right: 10%;
   bottom: 10%;
   padding: 20px 40px;
-  background-color: var(--red);
+  background-color: var(--darkred);
   font-size: 1.5rem;
   border-radius: 10px;
   transition: all 0.2s ease-in-out;

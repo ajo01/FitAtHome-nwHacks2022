@@ -3,6 +3,7 @@ import styles from "./ReportPage.module.css";
 import Check from "../../images/check.png";
 import Clock from "../../images/schedule.png";
 import Warning from "../../images/report_problem.png";
+import Title from "../../images/WorkoutSummary.png";
 
 const ReportPage = ({ correctPercentage, repNum, problems }) => {
   const navExercise = () => {
@@ -14,7 +15,7 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
 
   return (
     <div className={styles.reportContainer}>
-      <h1 id={styles.h1}>Workout Summary</h1>
+      <img className={styles.title} src={Title} alt="summary title" />
       <div id={styles.modal}>
         <div className={styles.inline}>
           <img className={styles.icons} src={Check} alt="check img" />
