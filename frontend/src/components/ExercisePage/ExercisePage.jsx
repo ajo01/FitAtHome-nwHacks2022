@@ -32,9 +32,9 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
 
   return (
     <div className={styles.exercisePage}>
-
-{/* <div style={{border: "10px solid "}} className={styles.exercisePage}> */}
+      {/* CHANGE TO: <div style={{border: "10px solid "}} className={styles.exercisePage}> */}
       {MessagePopUp()}
+      {/* can we change the following to a border? */}
       <div id={styles.left} />
       <div id={styles.right} />
       <div id={styles.top} />
