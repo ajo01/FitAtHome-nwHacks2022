@@ -3,19 +3,19 @@
 .menuCard {
   width: 250px;
   height: 70px;
-  background-color: var(--red);
+  background-color: var(--yellow);
   border-radius: 15px 15px 0px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--brown);
   font-family: "Comfortaa";
   font-size: 20px;
   margin-top: -80px;
 }
 
 .menuCardWrapper {
-  background-color: var(--darkred);
+  background-color: var(--darkyellow);
   height: 80px;
   border-radius: 15px;
 }
@@ -24,7 +24,7 @@
   width: 250px;
   padding: 0;
   border: 0;
-  background-color: white;
+  background-color: var(--brown);
   border-radius: 15px;
   cursor: pointer;
   margin: 0 0 16px 0;
@@ -37,9 +37,9 @@
 
 /* Can be changed later for React */
 .button.open .menuCard {
-  background-color: #00bbff;
+  background-color: var(--lightyellow);
 }
 
 .button.open .menuCardWrapper {
-  background-color: #02aeec;
+  background-color: var(--middleyellow);
 }
