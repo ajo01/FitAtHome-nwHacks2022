@@ -1,45 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&display=swap");
 
 .menuCard {
-    width: 250px;
-    height: 70px;
-    background-color: #009DD6;
-    border-radius: 15px 15px 0px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-family: 'Comfortaa';
-    font-size: 20px;
-    margin-top: -80px;
+  width: 250px;
+  height: 70px;
+  background-color: var(--red);
+  border-radius: 15px 15px 0px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Comfortaa";
+  font-size: 20px;
+  margin-top: -80px;
 }
 
 .menuCardWrapper {
-    background-color: #00698F;
-    height: 80px;
-    border-radius: 15px;
+  background-color: var(--darkred);
+  height: 80px;
+  border-radius: 15px;
 }
 
 .button {
-    width: 250px;
-    padding: 0;
-    border:0;
-    background-color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    margin: 0 0 16px 0;
+  width: 250px;
+  padding: 0;
+  border: 0;
+  background-color: white;
+  border-radius: 15px;
+  cursor: pointer;
+  margin: 0 0 16px 0;
 }
 
 .button:hover {
-    transform: scale(1.05);
-    transition: ease-in-out;
+  transform: scale(1.05);
+  transition: ease-in-out;
 }
 
 /* Can be changed later for React */
 .button.open .menuCard {
-    background-color: #00BBFF;
+  background-color: #00bbff;
 }
 
 .button.open .menuCardWrapper {
-    background-color: #02AEEC;
+  background-color: #02aeec;
 }
