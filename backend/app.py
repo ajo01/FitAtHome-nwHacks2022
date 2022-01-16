@@ -7,6 +7,7 @@ import ssl
 import uuid
 import PoseModule as pm
 import numpy as np
+import time
 
 import cv2
 from aiohttp import web
@@ -15,6 +16,8 @@ from av import VideoFrame
 
 from aiortc import MediaStreamTrack, RTCPeerConnection, RTCSessionDescription
 from aiortc.contrib.media import MediaBlackhole, MediaPlayer, MediaRecorder, MediaRelay
+
+rep_length = 1
 
 ROOT = os.path.dirname(__file__)
 
@@ -42,6 +45,8 @@ class VideoTransformTrack(MediaStreamTrack):
         self.prevColor = "red"
         self.prevCount = 0
         self.halfway = 0
+        self.lastGoalTime = time.time()
+        self.lastTimePen = 0
 
     async def recv(self):
         frame = await self.track.recv()
@@ -89,6 +94,10 @@ class VideoTransformTrack(MediaStreamTrack):
                     self.halfway = 0
                     color="green"
                     if self.dir == 0:
+                        if time.time() - self.lastGoalTime < rep_length:
+                            self.lastTimePen = time.time()
+
+                        self.lastGoalTime = time.time()
                         self.count += 0.5
                         self.dir = 1
 
@@ -96,12 +105,20 @@ class VideoTransformTrack(MediaStreamTrack):
                     self.halfway = 0
                     color="green"
                     if self.dir == 1:
+                        if time.time() - self.lastGoalTime < rep_length:
+                            self.lastTimePen = time.time()
+
+                        self.lastGoalTime = time.time()
                         self.count += 0.5
                         self.dir = 0
 
+                if time.time() - self.lastTimePen < 1:
+                    color="red"
+                    message="Slow-Down"
+
 
                 if datachannel != "1":
-                    logger.info(color + " " + str(self.halfway))
+                    logger.info(color + " " + str(self.halfway) + " " + str(time.time()))
                     if self.prevColor != color or self.prevCount != self.count:
                         self.prevColor = color
                         self.prevCount = self.count
