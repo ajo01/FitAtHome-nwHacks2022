@@ -33,7 +33,6 @@ const LoadingPage = () => {
           )}
           <img className={styles.icon} src={PTChar} />
         </div>
-        <Webplayer />
       </motion.div>
     </div>
   );

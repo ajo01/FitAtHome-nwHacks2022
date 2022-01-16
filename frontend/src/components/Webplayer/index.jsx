@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalMessage }) => {
+export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalMessage, setTotalMistakes }) => {
   // get DOM elements
 
   useEffect(() => {
@@ -94,6 +94,8 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalM
       const parameters = { ordered: true };
 
       let totalMessage = ""
+      let totalMistakes = 0
+      let prevMessage = ""
       dc = pc.createDataChannel("chat", parameters);
       dc.onclose = function () {
         clearInterval(dcInterval);
@@ -104,6 +106,12 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalM
         if (sendMessage && evt.data.split(" ")[4] !== "none") {
           const msg = evt.data.split(" ")[4].replaceAll("-", " ")
           sendMessage(msg)
+          if (prevMessage !== msg) {
+            totalMistakes++
+            setTotalMistakes(totalMistakes)
+          }
+          prevMessage = msg
+          
           if (totalMessage.split("~~").find(r => r === msg) === undefined) {
             totalMessage = totalMessage + "~~" + msg
             setTotalMessage(totalMessage)
@@ -135,33 +143,33 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalM
         negotiate();
       }
     }
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
-      // close data channel
-      if (dc) {
-        dc.close();
-      }
+    // window.addEventListener("beforeunload", (ev) => {
+    //   ev.preventDefault();
+    //   // close data channel
+    //   if (dc) {
+    //     dc.close();
+    //   }
 
-      // close transceivers
-      if (pc.getTransceivers) {
-        pc.getTransceivers().forEach(function (transceiver) {
-          if (transceiver.stop) {
-            transceiver.stop();
-          }
-        });
-      }
+    //   // close transceivers
+    //   if (pc.getTransceivers) {
+    //     pc.getTransceivers().forEach(function (transceiver) {
+    //       if (transceiver.stop) {
+    //         transceiver.stop();
+    //       }
+    //     });
+    //   }
 
-      // close local audio / video
-      pc.getSenders().forEach(function (sender) {
-        sender.track.stop();
-      });
+    //   // close local audio / video
+    //   pc.getSenders().forEach(function (sender) {
+    //     sender.track.stop();
+    //   });
 
-      // close peer connection
-      setTimeout(function () {
-        pc.close();
-        window.close();
-      }, 100);
-    });
+    //   // close peer connection
+    //   setTimeout(function () {
+    //     pc.close();
+    //     window.close();
+    //   }, 100);
+    // });
 
     start();
   }, []);
