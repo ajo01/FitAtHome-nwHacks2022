@@ -6,6 +6,8 @@ import PTChar from "../../images/PTChar.png";
 
 const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   const [borderColor, setBorderColor] = useState("green");
+  const [totalReps, setTotalReps] = useState(0);
+  const [totalMistakes, setTotalMistakes] = useState(0)
 
   // change it to false for production
   const [message, setMessage] = useState("");
@@ -21,6 +23,8 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
     if (show) {
       clearTimeout(timeoutFunc);
     }
+
+    setTotalMistakes(totalMistakes + 1)
 
     setShow(true);
     setMessage(ms);
@@ -49,7 +53,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       <div style={{ flexGrow: "1", margin: "20px", backgroundColor: "white" }}>
         <Webplayer setBorderColor={setBorderColor} sendMessage={sendMessage} />
       </div>
-      <button id={styles.endBtn} onClick={endWorkout} sendMessage={sendMessage}>
+      <button id={styles.endBtn} onClick={endWorkout} sendMessage={sendMessage} setTotalReps={setTotalReps}>
         End Workout
       </button>
     </div>

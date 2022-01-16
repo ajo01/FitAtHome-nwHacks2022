@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const Webplayer = ({ setBorderColor, sendMessage }) => {
+export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps }) => {
   // get DOM elements
 
   useEffect(() => {
@@ -102,6 +102,7 @@ export const Webplayer = ({ setBorderColor, sendMessage }) => {
         console.log(evt.data)
         if (setBorderColor) setBorderColor(evt.data.split(" ")[0]);
         if (sendMessage && evt.data.split(" ")[4] !== "none") sendMessage(evt.data.split(" ")[4].replaceAll("-", " "))
+        if (setTotalReps) setTotalReps(evt.data.split(" ")[2])
       };
 
       var constraints = {
