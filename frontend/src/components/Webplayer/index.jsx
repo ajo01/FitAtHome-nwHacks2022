@@ -95,6 +95,7 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalM
 
       let totalMessage = ""
       let totalMistakes = 0
+      let totalReps = 0
       let prevMessage = ""
       dc = pc.createDataChannel("chat", parameters);
       dc.onclose = function () {
@@ -118,9 +119,17 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps, setTotalM
           }
         } 
         if (setTotalReps) {
-          setTotalReps(parseInt(evt.data.split(" ")[2]))
+          totalReps = parseInt(evt.data.split(" ")[2])
+          setTotalReps(totalReps)
         }
       };
+      pc.onconnectionstatechange = function(event) {
+        switch(pc.connectionState) {
+          case "closed":
+            window.location.href = `/report?mistake=${totalMistakes}&reps=${totalReps}&mistakeList=${totalMessage}`;
+            break;
+        }
+      }
 
       var constraints = {
         audio: false,

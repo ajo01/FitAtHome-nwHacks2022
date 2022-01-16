@@ -123,7 +123,7 @@ class VideoTransformTrack(MediaStreamTrack):
                             self.prevColor = color
                             self.prevCount = self.count
                             datachannel.send(color + " " + str(self.dir) + " " + str(self.count) + " " + str(per) + " " + message)
-                except NameError:
+                except Exception as e:
                     print("err")
 
 
@@ -144,6 +144,8 @@ async def javascript(request):
 
 
 async def offer(request):
+    datachannel = "1"
+
     params = await request.json()
     offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
 
@@ -167,8 +169,6 @@ async def offer(request):
     # else:
     #     recorder = MediaBlackhole()
     recorder = MediaBlackhole()
-
-    datachannel = "1"
 
     @pc.on("datachannel")
     def on_datachannel(channel):
