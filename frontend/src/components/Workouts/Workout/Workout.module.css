@@ -1,8 +1,9 @@
 .container {
-  width: 500px;
-  height: 400px;
+  width: 100%;
+  aspect-ratio: 4/3;
   /* background-color: green; */
   margin: auto;
+  margin-top: 0;
 }
 
 .imgDiv {
@@ -11,4 +12,5 @@
   top: 0;
   width: 100%;
   height: 80%;
+  margin-top: 0;
 }
