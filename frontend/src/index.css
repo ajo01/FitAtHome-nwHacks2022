@@ -4,9 +4,10 @@
 :root {
   --borderRadius: 20px;
   --darkblue: #09093b;
-  --brightblue: #00a5e0;
+  --brightblue: #01a9e6;
   --green: #80dd47;
   --red: #ff5858;
+  --grey: #b5b5b5;
 }
 
 body {

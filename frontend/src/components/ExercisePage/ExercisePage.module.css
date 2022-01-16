@@ -1,0 +1,82 @@
+.exercisePage {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  position: absolute;
+}
+
+.videoContainer {
+  width: 100%;
+  height: 100%;
+}
+
+#alertMsg {
+  position: absolute;
+  top: 40px;
+  width: 800px;
+  height: 80px;
+  background-color: var(--brightblue);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  color: white;
+  font-size: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  line-height: 80px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+#endBtn {
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+  padding: 15px 40px;
+  background-color: var(--red);
+  font-size: 1.25rem;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  border: none;
+}
+
+#endBtn:hover {
+  background-color: #bf2626;
+}
+
+#top,
+#bottom,
+#left,
+#right {
+  background: var(--grey);
+  position: fixed;
+}
+#left,
+#right {
+  top: 0;
+  bottom: 0;
+  width: 30px;
+}
+#left {
+  left: 0;
+}
+#right {
+  right: 0;
+}
+
+#top,
+#bottom {
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+#top {
+  top: 0;
+}
+#bottom {
+  bottom: 0;
+}
