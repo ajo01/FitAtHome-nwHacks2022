@@ -4,6 +4,7 @@ import Workouts from "../Workouts/Workouts";
 import SelectBodyPart from "../UI/SelectBodyPart/SelectBodyPart";
 
 const MainPage = () => {
+
   return (
     <div className={styles.mainPage}>
       <div className={styles.header}>
@@ -12,8 +13,10 @@ const MainPage = () => {
       </div>
       <div style={{ height: "30px", width: "100%" }} />
       <SelectBodyPart />
-      <Workouts />
+      <Workouts className={styles.workoutSection} />
     </div>
+
+
   );
 };
 

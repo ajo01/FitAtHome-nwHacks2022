@@ -6,3 +6,8 @@
   background-color: var(--brightblue);
   border-radius: var(--borderRadius);
 }
+
+.menu {
+  display: flex;
+  flex-direction: column;
+}
