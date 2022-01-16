@@ -17,7 +17,7 @@
   background-color: white;
   margin: auto;
   width: 80%;
-  height: 500px;
+  height: 480px;
 }
 
 .reportBtn {
@@ -32,14 +32,14 @@
 }
 
 #resumeBtn {
-  bottom: 17%;
+  bottom: 10%;
   right: 30%;
   background-color: var(--brightblue);
   color: white;
 }
 
 #backBtn {
-  bottom: 17%;
+  bottom: 10%;
   right: 10%;
   background-color: var(--green);
 }
