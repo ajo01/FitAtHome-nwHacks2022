@@ -1,18 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap');
+
 .mainPage {
-  background-color: var(--darkblue);
-  width: 100%;
-  height: 100%;
+  background: url('img/background.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
   position: absolute;
   overflow-y: scroll;
+
+  width: 100vw;
 }
 
 .header {
-  width: 94%;
   height: 120px;
-  margin: 0 auto;
+  margin: 0;
   color: white;
+  text-shadow: 0px 4px 5px black;
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: black;
+}
+
+.mainContent {
+  padding: 20px 40px;
+  display: flex;
+}
+
+.mainHeader {
+  font-size: 45px;
+  margin-bottom:0;
+  margin-top: 0;
+  font-family: 'Bowlby One';
+}
+
+.subHeader {
+  font-size: 20px;
+  margin-top: 0;
+  font-family: 'Bowlby One';
+}
+
+.headerSection {
+  align-items: center;
+  display: flex;
+  padding: 40px 40px 0 40px;
+  justify-content: space-between;
+}
+
+.icon {
+  background-color: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
 }
 
 .workoutSection {
   margin-bottom: 30px;
+  margin-left: 16px;
 }

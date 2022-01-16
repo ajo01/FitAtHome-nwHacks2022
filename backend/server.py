@@ -79,7 +79,8 @@ class VideoTransformTrack(MediaStreamTrack):
             # rotate image
             img = frame.to_ndarray(format="bgr24")
             rows, cols, _ = img.shape
-            M = cv2.getRotationMatrix2D((cols / 2, rows / 2), frame.time * 45, 1)
+            M = cv2.getRotationMatrix2D(
+                (cols / 2, rows / 2), frame.time * 45, 1)
             img = cv2.warpAffine(img, M, (cols, rows))
 
             # rebuild a VideoFrame, preserving timing information
@@ -214,9 +215,9 @@ if __name__ == "__main__":
     app.router.add_get("/", index)
     app.router.add_get("/client.js", javascript)
     resource = cors.add(app.router.add_resource("/offer"), {
-		"*": aiohttp_cors.ResourceOptions(allow_methods=["POST"], expose_headers="*",
-            allow_headers="*",)
-	})
+        "*": aiohttp_cors.ResourceOptions(allow_methods=["POST"], expose_headers="*",
+                                          allow_headers="*",)
+    })
     resource.add_route("POST", offer)
     web.run_app(
         app, access_log=None, host=args.host, port=args.port, ssl_context=ssl_context
