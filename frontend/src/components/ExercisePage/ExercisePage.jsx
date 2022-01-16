@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ExercisePage.module.css";
 import { useState, useEffect } from "react";
 import { Webplayer } from "../Webplayer";
+import PTChar from "../../images/PTChar.png";
 
 const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   const [borderColor, setBorderColor] = useState("green");
@@ -33,7 +34,10 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       className={styles.exercisePage}
       style={{ backgroundColor: borderColor, display: "flex" }}
     >
-      {show && MessagePopUp()}
+      <div>
+        {show && MessagePopUp()}
+        <img className={styles.icon} src={PTChar} />
+      </div>
 
       <div style={{ flexGrow: "1", margin: "20px", backgroundColor: "white" }}>
         <Webplayer setBorderColor={setBorderColor} />

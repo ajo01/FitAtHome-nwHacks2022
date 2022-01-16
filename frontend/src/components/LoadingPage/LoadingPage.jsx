@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import DotLoader from "../UI/DotLoader/DotLoader";
 
 const LoadingPage = () => {
-  const [counter, setCounter] = React.useState(5);
+    const [counter, setCounter] = React.useState(1);
 
   React.useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);

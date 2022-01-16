@@ -38,6 +38,10 @@ class VideoTransformTrack(MediaStreamTrack):
         self.datachannel = datachannel
         self.dir = 0
         self.count = 0
+        self.prevData = "red 0 0 0"
+        self.prevColor = "red"
+        self.prevCount = 0
+        self.halfway = 0
 
     async def recv(self):
         frame = await self.track.recv()
@@ -51,32 +55,57 @@ class VideoTransformTrack(MediaStreamTrack):
             
             angle = detector.findAngle(img, 14, 12, 24)
             angle1 = detector.findAngle(img, 13, 11, 23)
-            if angle1 < 83:
-                cv2.putText(img, str("Move hands higher"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
-                            (255, 0, 0), 10)
-                message=""
-            if angle1 > 83:
-                cv2.putText(img, str("Move hands lower"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
-                            (255, 0, 0), 10)
-            
-            per = np.interp(angle1, (16, 83), (0, 100))
 
-            color="red"
+            if (not angle == -1) and (not angle1 == -1):
+                if angle1 < 83:
+                    cv2.putText(img, str("Move hands higher"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                                (255, 0, 0), 10)
+                    message=""
+                if angle1 > 83:
+                    cv2.putText(img, str("Move hands lower"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                                (255, 0, 0), 10)
+                
+                per = np.interp(angle1, (20, 83), (0, 100))
 
-            if per == 100:
-                color="green"
-                if self.dir == 0:
-                    self.count += 0.5
-                    self.dir = 1
-            if per == 0:
-                color="green"
-                if self.dir == 1:
-                    self.count += 0.5
-                    self.dir = 0
+                color="grey"
+                message="none"
+
+                if per > 40 and per < 60:
+                    self.halfway = 1
+
+                if self.halfway == 1:
+                    if per < 30 and self.dir == 0:
+                        color = "red"
+                        message = "higher"
+
+                    if per > 70 and self.dir == 1:
+                        color = "red"
+                        message = "lower"
+
+                else:
+                    color = "grey"
+
+                if per == 100:
+                    self.halfway = 0
+                    color="green"
+                    if self.dir == 0:
+                        self.count += 0.5
+                        self.dir = 1
+
+                if per == 0:
+                    self.halfway = 0
+                    color="green"
+                    if self.dir == 1:
+                        self.count += 0.5
+                        self.dir = 0
 
 
-            if datachannel != "1":
-                datachannel.send(color + " " + str(self.dir) + " " + str(self.count) + " " + str(per))
+                if datachannel != "1":
+                    logger.info(color + " " + str(self.halfway))
+                    if self.prevColor != color or self.prevCount != self.count:
+                        self.prevColor = color
+                        self.prevCount = self.count
+                        datachannel.send(color + " " + str(self.dir) + " " + str(self.count) + " " + str(per) + " " + message)
 
 
             new_frame = VideoFrame.from_ndarray(img, format="bgr24")
