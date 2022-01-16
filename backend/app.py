@@ -1,116 +1,245 @@
-from unittest import case
-from flask import Flask, render_template, Response
-import cv2
-import numpy as np
-import time
+import argparse
+import asyncio
+import json
+import logging
+import os
+import ssl
+import uuid
 import PoseModule as pm
+import numpy as np
 
+import cv2
+from aiohttp import web
+import aiohttp_cors
+from av import VideoFrame
 
-app = Flask(__name__)
+from aiortc import MediaStreamTrack, RTCPeerConnection, RTCSessionDescription
+from aiortc.contrib.media import MediaBlackhole, MediaPlayer, MediaRecorder, MediaRelay
 
-cap = cv2.VideoCapture(0)
+ROOT = os.path.dirname(__file__)
+
+logger = logging.getLogger("pc")
+pcs = set()
+relay = MediaRelay()
+
 detector = pm.poseDetector()
-status = ""
-countApi = 0
 
+class VideoTransformTrack(MediaStreamTrack):
+    """
+    A video stream track that transforms frames from an another track.
+    """
 
-def setStatus(state):
-    global status
-    status = state
+    kind = "video"
 
+    def __init__(self, track, transform):
+        super().__init__()  # don't forget this!
+        self.track = track
+        self.transform = transform
 
-def gen_frames():  # generate frame by frame from camera
-    num = 5
-    count = 0
-    dir = 0
-    global countApi
-    while True:
-        # Capture frame-by-frame
-        success, img = cap.read()
-        img = detector.findPose(img, False)
-        lmList = detector.findPosition(img, draw=False)
-        if len(lmList) != 0:
-            if num == 1:  # right hand bicep-curl
-                angle = detector.findAngle(img, 12, 14, 16)
-                per = np.interp(angle, (250, 310), (0, 100))
-                bar = np.interp(angle, (250, 310), (650, 100))
-            if num == 2:  # left hand bicep-curl
-                angle = detector.findAngle(img, 11, 13, 15)
-                per = np.interp(angle, (250, 310), (0, 100))
-                bar = np.interp(angle, (250, 310), (650, 100))
-            if num == 3:  # left leg squat
-                angle = detector.findAngle(img, 23, 25, 27)
-                per = np.interp(angle, (250, 310), (0, 100))
-                bar = np.interp(angle, (250, 310), (650, 100))
-            if num == 4:  # right leg squat
-                angle = detector.findAngle(img, 24, 26, 28)
-                per = np.interp(angle, (170, 280), (0, 100))
-                bar = np.interp(angle, (170, 280), (650, 100))
-            if num == 5:  # lateral raises
-                angle = detector.findAngle(img, 14, 12, 24)
-                angle1 = detector.findAngle(img, 13, 11, 23)
-                if angle1 < 83:
-                    cv2.putText(img, str("Move hands higher"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
-                                (255, 0, 0), 10)
-                    setStatus("high")
-                if angle1 > 83:
-                    cv2.putText(img, str("Move hands lower"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
-                                (255, 0, 0), 10)
-                    setStatus("low")
-                per = np.interp(angle1, (16, 83), (0, 100))
-                bar = np.interp(angle1, (16, 83), (650, 100))
-            color = (255, 0, 255)
-            if per == 100:
-                color = (0, 255, 0)
-                if dir == 0:
-                    count += 0.5
-                    countApi += 0.5
-                    dir = 1
-            if per == 0:
-                color = (0, 255, 0)
-                if dir == 1:
-                    count += 0.5
-                    countApi += 0.5
-                    dir = 0
-            cv2.rectangle(img, (1100, 100), (1175, 650), color, 3)
-            cv2.rectangle(img, (1100, int(bar)),
-                          (1175, 650), color, cv2.FILLED)
-            cv2.putText(img, f'{int(per)} %', (1100, 75), cv2.FONT_HERSHEY_PLAIN, 4,
-                        color, 4)
-            cv2.rectangle(img, (0, 450), (250, 720), (0, 255, 0), cv2.FILLED)
-            cv2.putText(img, str(int(count)), (45, 670), cv2.FONT_HERSHEY_PLAIN, 15,
-                        (255, 0, 0), 25)
+    async def recv(self):
+        frame = await self.track.recv()
 
-        if not success:
-            break
+        if self.transform == "cartoon":
+            img = frame.to_ndarray(format="bgr24")
+
+            # prepare color
+            img_color = cv2.pyrDown(cv2.pyrDown(img))
+            for _ in range(6):
+                img_color = cv2.bilateralFilter(img_color, 9, 9, 7)
+            img_color = cv2.pyrUp(cv2.pyrUp(img_color))
+
+            # prepare edges
+            img_edges = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+            img_edges = cv2.adaptiveThreshold(
+                cv2.medianBlur(img_edges, 7),
+                255,
+                cv2.ADAPTIVE_THRESH_MEAN_C,
+                cv2.THRESH_BINARY,
+                9,
+                2,
+            )
+            img_edges = cv2.cvtColor(img_edges, cv2.COLOR_GRAY2RGB)
+
+            # combine color and edges
+            img = cv2.bitwise_and(img_color, img_edges)
+
+            # rebuild a VideoFrame, preserving timing information
+            new_frame = VideoFrame.from_ndarray(img, format="bgr24")
+            new_frame.pts = frame.pts
+            new_frame.time_base = frame.time_base
+            return new_frame
+        elif self.transform == "edges":
+            # perform edge detection
+            img = frame.to_ndarray(format="bgr24")
+            img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
+
+            # rebuild a VideoFrame, preserving timing information
+            new_frame = VideoFrame.from_ndarray(img, format="bgr24")
+            new_frame.pts = frame.pts
+            new_frame.time_base = frame.time_base
+            return new_frame
+        elif self.transform == "rotate":
+            # rotate image
+            img = frame.to_ndarray(format="bgr24")
+            rows, cols, _ = img.shape
+            M = cv2.getRotationMatrix2D(
+                (cols / 2, rows / 2), frame.time * 45, 1)
+            img = cv2.warpAffine(img, M, (cols, rows))
+
+            # rebuild a VideoFrame, preserving timing information
+            new_frame = VideoFrame.from_ndarray(img, format="bgr24")
+            new_frame.pts = frame.pts
+            new_frame.time_base = frame.time_base
+            return new_frame
         else:
-            ret, buffer = cv2.imencode('.jpg', img)
-            img = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + img + b'\r\n')  # concat frame one by one and show result
+            img = frame.to_ndarray(format="bgr24")
+            img = detector.findPose(img, False)
+            lmList = detector.findPosition(img, draw=False)
+            
+            angle = detector.findAngle(img, 14, 12, 24)
+            angle1 = detector.findAngle(img, 13, 11, 23)
+            if angle1 < 83:
+                cv2.putText(img, str("Move hands higher"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                            (255, 0, 0), 10)
+            if angle1 > 83:
+                cv2.putText(img, str("Move hands lower"), (45, 670), cv2.FONT_HERSHEY_PLAIN, 5,
+                            (255, 0, 0), 10)
+            per = np.interp(angle1, (16, 83), (0, 100))
+            bar = np.interp(angle1, (16, 83), (650, 100))
+            
+            new_frame = VideoFrame.from_ndarray(img, format="bgr24")
+            new_frame.pts = frame.pts
+            new_frame.time_base = frame.time_base
+            return new_frame
 
 
-@ app.route('/status', methods=['GET'])
-def status():
-    return {'status': status}
+async def index(request):
+    content = open(os.path.join(ROOT, "index.html"), "r").read()
+    return web.Response(content_type="text/html", text=content)
 
 
-@app.route('/count', methods=['GET'])
-def count():
-    return {'count': countApi}
+async def javascript(request):
+    content = open(os.path.join(ROOT, "client.js"), "r").read()
+    return web.Response(content_type="application/javascript", text=content)
 
 
-@ app.route('/video_feed', methods=['GET'])
-def video_feed():
-    # Video streaming route. Put this in the src attribute of an img tag
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+async def offer(request):
+    params = await request.json()
+    offer = RTCSessionDescription(sdp=params["sdp"], type=params["type"])
+
+    pc = RTCPeerConnection()
+    pc_id = "PeerConnection(%s)" % uuid.uuid4()
+    pcs.add(pc)
+
+    def log_info(msg, *args):
+        logger.info(pc_id + " " + msg, *args)
+
+    log_info("Created for %s", request.remote)
+
+    # EDIT THIS TO CREATE SOME AUDIO MODIFICATION
+    # player = MediaPlayer(os.path.join(ROOT, "demo-instruct.wav"))
+    # if args.record_to:
+    #     recorder = MediaRecorder(args.record_to)
+    # else:
+    #     recorder = MediaBlackhole()
+    recorder = MediaBlackhole()
+
+    @pc.on("datachannel")
+    def on_datachannel(channel):
+        @channel.on("message")
+        def on_message(message):
+            if isinstance(message, str) and message.startswith("ping"):
+                channel.send("pong" + message[4:])
+
+    @pc.on("connectionstatechange")
+    async def on_connectionstatechange():
+        log_info("Connection state is %s", pc.connectionState)
+        if pc.connectionState == "failed":
+            await pc.close()
+            pcs.discard(pc)
+
+    @pc.on("track")
+    def on_track(track):
+        log_info("Track %s received", track.kind)
+
+        if track.kind == "audio":
+            pc.addTrack(player.audio)
+            recorder.addTrack(track)
+        elif track.kind == "video":
+            pc.addTrack(
+                VideoTransformTrack(
+                    relay.subscribe(track), transform=params["video_transform"]
+                )
+            )
+            if args.record_to:
+                recorder.addTrack(relay.subscribe(track))
+
+        @track.on("ended")
+        async def on_ended():
+            log_info("Track %s ended", track.kind)
+            await recorder.stop()
+
+    # handle offer
+    await pc.setRemoteDescription(offer)
+    await recorder.start()
+
+    # send answer
+    answer = await pc.createAnswer()
+    await pc.setLocalDescription(answer)
+
+    return web.Response(
+        content_type="application/json",
+        text=json.dumps(
+            {"sdp": pc.localDescription.sdp, "type": pc.localDescription.type}
+        ),
+    )
 
 
-@ app.route('/', methods=['GET'])
-def index():
-    """Video streaming home page."""
-    return render_template('index.html')
+async def on_shutdown(app):
+    # close peer connections
+    coros = [pc.close() for pc in pcs]
+    await asyncio.gather(*coros)
+    pcs.clear()
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="WebRTC audio / video / data-channels demo"
+    )
+    parser.add_argument("--cert-file", help="SSL certificate file (for HTTPS)")
+    parser.add_argument("--key-file", help="SSL key file (for HTTPS)")
+    parser.add_argument(
+        "--host", default="0.0.0.0", help="Host for HTTP server (default: 0.0.0.0)"
+    )
+    parser.add_argument(
+        "--port", type=int, default=80, help="Port for HTTP server (default: 8080)"
+    )
+    parser.add_argument("--record-to", help="Write received media to a file."),
+    parser.add_argument("--verbose", "-v", action="count")
+    args = parser.parse_args()
+
+    if args.verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
+    if args.cert_file:
+        ssl_context = ssl.SSLContext()
+        ssl_context.load_cert_chain(args.cert_file, args.key_file)
+    else:
+        ssl_context = None
+
+    app = web.Application()
+    cors = aiohttp_cors.setup(app)
+
+    app.on_shutdown.append(on_shutdown)
+    app.router.add_get("/", index)
+    app.router.add_get("/client.js", javascript)
+    resource = cors.add(app.router.add_resource("/offer"), {
+        "*": aiohttp_cors.ResourceOptions(allow_methods=["POST"], expose_headers="*",
+                                          allow_headers="*",)
+    })
+    resource.add_route("POST", offer)
+    web.run_app(
+        app, access_log=None, host=args.host, port=args.port, ssl_context=ssl_context
+    )
