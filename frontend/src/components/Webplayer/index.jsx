@@ -99,10 +99,11 @@ export const Webplayer = ({ setBorderColor, sendMessage, setTotalReps }) => {
       };
       dc.onopen = function () {};
       dc.onmessage = function (evt) {
-        console.log(evt.data)
         if (setBorderColor) setBorderColor(evt.data.split(" ")[0]);
         if (sendMessage && evt.data.split(" ")[4] !== "none") sendMessage(evt.data.split(" ")[4].replaceAll("-", " "))
-        if (setTotalReps) setTotalReps(evt.data.split(" ")[2])
+        if (setTotalReps) {
+          setTotalReps(parseInt(evt.data.split(" ")[2]))
+        }
       };
 
       var constraints = {

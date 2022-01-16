@@ -13,6 +13,14 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
   const navHome = () => {
     window.location.href = "/";
   };
+
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const { mistake, reps, mistakeList } = Object.fromEntries(
+    urlSearchParams.entries()
+  );
+
+  console.log(JSON.parse(mistakeList).a.map(r => r))
+
   return (
     <div className={styles.reportContainer}>
       <motion.img
@@ -33,14 +41,14 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
       >
         <div className={styles.inline} id={styles.firstInline}>
           <img className={styles.icons} src={Check} alt="check img" />
-          <div className={styles.text}>Percentage of correct form</div>
-          <div className={styles.rightAlign}>94%</div>
+          <div className={styles.text}>Total Mistakes</div>
+          <div className={styles.rightAlign}>{mistake}</div>
         </div>
         <div className={styles.border} />
         <div className={styles.inline}>
           <img className={styles.icons} src={Clock} alt="clock img" />
-          <div className={styles.text}>Rep number</div>
-          <div className={styles.rightAlign}>3</div>
+          <div className={styles.text}>Total Reps</div>
+          <div className={styles.rightAlign}>{reps}</div>
         </div>
         <div className={styles.border} />
         <div className={styles.inline}>
@@ -48,9 +56,9 @@ const ReportPage = ({ correctPercentage, repNum, problems }) => {
           <div className={styles.text}>Most common problems:</div>
           <div id={styles.problemList}>
             <ol>
-              <li>Curved Back</li>
-              <li>Knees</li>
-              <li>Legs are not bent enough</li>
+              {JSON.parse(mistakeList).a.map(r => (
+                <li>{r}</li>
+              ))}
             </ol>
           </div>
         </div>

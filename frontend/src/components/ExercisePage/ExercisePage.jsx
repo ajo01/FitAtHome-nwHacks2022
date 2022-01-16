@@ -8,6 +8,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   const [borderColor, setBorderColor] = useState("green");
   const [totalReps, setTotalReps] = useState(0);
   const [totalMistakes, setTotalMistakes] = useState(0)
+  const [allMistakesText, setAllMistakesText] = useState([])
 
   // change it to false for production
   const [message, setMessage] = useState("");
@@ -15,6 +16,12 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   const [timeoutFunc, setTimeoutFunc] = useState(null);
 
   const sendMessage = (ms) => {
+    if (allMistakesText.find(r => r === ms) === undefined) {
+      console.log(allMistakesText)
+      allMistakesText.push(ms)
+      console.log(...allMistakesText)
+      setAllMistakesText(...allMistakesText)
+    }
     console.log(ms);
     if (ms === message) {
       return;
@@ -37,7 +44,7 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
   };
 
   const endWorkout = () => {
-    window.location.href = "/report";
+    window.location.href = `/report?mistake=${totalMistakes}&reps=${totalReps}&mistakeList=${encodeURIComponent(JSON.stringify({a: allMistakesText}))}`;
   };
 
   return (
@@ -51,10 +58,10 @@ const ExercisePage = ({ videoFeed, cnt, postureMsg }) => {
       </div>
 
       <div style={{ flexGrow: "1", margin: "20px", backgroundColor: "white" }}>
-        <Webplayer setBorderColor={setBorderColor} sendMessage={sendMessage} />
+        <Webplayer setBorderColor={setBorderColor} sendMessage={sendMessage}  setTotalReps={setTotalReps} />
       </div>
-      <button id={styles.endBtn} onClick={endWorkout} sendMessage={sendMessage} setTotalReps={setTotalReps}>
-        End Workout
+      <button id={styles.endBtn} onClick={endWorkout}>
+        End Workout {totalReps}
       </button>
     </div>
   );
