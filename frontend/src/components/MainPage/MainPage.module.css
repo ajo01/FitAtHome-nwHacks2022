@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Comfortaa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap');
 
 .mainPage {
   background: url('img/background.jpg') no-repeat center center fixed; 
@@ -17,9 +17,8 @@
   height: 120px;
   margin: 0;
   color: white;
-  font-family: 'Bowlby One SC';
-  text-shadow: 0px 8px 10px black;
-  -webkit-text-stroke-width: 1px;
+  text-shadow: 0px 4px 5px black;
+  -webkit-text-stroke-width: 0.5px;
   -webkit-text-stroke-color: black;
 }
 
@@ -29,14 +28,16 @@
 }
 
 .mainHeader {
-  font-size: 40px;
+  font-size: 45px;
   margin-bottom:0;
   margin-top: 0;
+  font-family: 'Bowlby One';
 }
 
 .subHeader {
   font-size: 20px;
   margin-top: 0;
+  font-family: 'Bowlby One';
 }
 
 .headerSection {

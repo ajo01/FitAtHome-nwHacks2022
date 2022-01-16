@@ -17,6 +17,7 @@ const Workouts = () => {
       name: "Squats",
       type: bodyPart.LEGS,
       image: "",
+      // image: "./workouticons/Legs/Squats.png",
     },
     {
       key: 1,
